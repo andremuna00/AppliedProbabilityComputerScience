@@ -1,0 +1,99 @@
+---
+title: "Using RMarkdown and Latex to create reports"
+author: "Isadora Antoniano Villalobos"
+date: "2022-11-10"
+# Comment the following line for html; uncomment for pdf
+# output: pdf_document
+# Comment the following line for pdf; uncomment for html
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# What else can we do?
+
+Up until now, the file you have seen was automatically generated to introduce RMarkdown. Now I will show you some examples of useful features you can use for your team assignment.
+
+## Using  $LaTeX$ for mathematical notation
+
+One of the things that R Markdown can do is use $LaTeX$, a software system for document preparation which, among other things, allows us to write mathematical notation in a neat format. In order for this to work, you will need to have a $LaTeX$ distribution installed. I recommend $TinyTeX$. See <https://yihui.org/tinytex/> for more details and how to install. An alternative option is $MiKTeX$ (see <https://miktex.org/>) which offers a more complete version but doesn't integreat as neatly with R Markdown and R Studio (so I don't recommend it unless you need to do something very complex),
+
+The dedicated page _Useful R/ RStudio/ RMarkdown resources_ on Moodle (<https://moodle.unive.it/mod/page/view.php?id=539511>) contains links to useful manuals and cheat-sheets for R, R Markdown and $LaTeX$.
+
+## Example: an exam-type exercise
+
+$11\%$ of the microchips used by a computer assembly company is produced by Supplier A and the remaining $89\%$ by Supplier B. The weight of the microchips produced by Supplier A follows a normal distribution with mean $\mu=4.3$g. and variance $\sigma^2=0.16^2$g. The weight of the microchips produced by Supplier B is uniformly distributed between $4.1$g and $4.5$g.
+
+a. What is the probability that a microchip from Supplier A has a weight between $4.1$g and $4.4$g?
+b. What is the probability that a microchip from Supplier B has a weight between $4.1$g and $4.4$g?
+c. What is the probability that a randomly chosen microchip has a weight between $4.1$g and $4.4$g?
+d. If a microchip used by the assembly company weights between $4.1$g. and $4.4$g, what is the probability that it comes from Supplier A?
+
+_Solution:_
+
+Define the following events:
+
+* $G= \{\text{ The microchip weights between } 4.1 \text{g. and } 4.4 \text{g}.\}$
+* $A= \{\text{ The microchip was produced by Supplier A} \}$.
+* $B= \{\text{ The microchip was produced by Supplier B}\}$.
+
+a. Let $X$ be the weight of a microchip produced by Supplier A. Then, $X\sim\text{N}(4.3, 0.16^2)$, and
+$$\mathbb P[G|A]=\mathbb P[4.1<X<4.4]=\mathrm{ pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16) } =`r round(pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16),4)`$$
+A less nicely formatted (ugly-looking) solution:
+```{r}
+pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16)
+```
+
+b. Let $Y$ be the weight of a microchip produced by Supplier B. Then, $Y\sim\text{U}(4.1, 4.5)$, and
+$$\mathbb P[G|B]=\mathbb P[4.1<Y<4.4]=\mathrm{ punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5) } =`r round(punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5),4)`$$
+Alternatively, 
+$\mathbb P[4.1<Y<4.4]= (4.4-4.1)/(4.5-4.1) =`r round((4.4-4.1)/(4.5-4.1),4)`$.
+
+A less nicely formatted (ugly-looking) solution:
+```{r}
+punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5)
+```
+
+Or:
+```{r}
+(4.4-4.1)/(4.5-4.1)
+```
+
+c. By the law of total probability, $$\mathbb P[G]= \mathbb P[A]P[G|A]+ \mathbb P[B]\mathbb P[B|A]=0.11\cdot `r round(pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16),4)`+(1-0.11)\cdot `r round(punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5),4)`= `r round(0.11* (pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16)) + (1-0.11)* (punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5)),4)`$$
+
+Alternatively, we define some quantities (hidden from the report) and use them to abbreviate the answers:
+
+```{r, echo=FALSE}
+sol_a <- pnorm(4.4,4.3,0.16)-pnorm(4.1,4.3,0.16)
+sol_b <- punif(4.4,4.1,4.5)-punif(4.1,4.1,4.5)
+sol_c <- 0.11*sol_a + (1-0.11)*sol_b
+```
+$$\mathbb P[G]= \mathbb P[A]P[G|A]+ \mathbb P[B]\mathbb P[B|A]=0.11\cdot `r round(sol_a,4)`+(1-0.11)\cdot `r round(sol_b,4)`= `r round(sol_c,4)`$$
+
+d. By the Bayes rule,
+```{r, echo=FALSE}
+sol_d <- 0.11*sol_a / sol_c
+```
+$$\mathbb P[A|G]=\frac{\mathbb P[A]P[G|A]}{\mathbb P[G]}= \frac{0.11\cdot `r round(sol_a,4)`}{`r round(sol_c,4)`}=`r round(sol_d,4)`$$

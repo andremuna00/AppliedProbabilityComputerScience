@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400&display=swap');
+
+#TOC::before {
+  content: "";
+  display: block;
+  height: 200px;
+  margin: 5px 5px 10px 5px;
+  background-image: url("logo.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+body{ /* Normal  */
+  font-size: 18px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+td {  /* Table  */
+  font-size: 10px;
+}
+h1.title {
+  font-size: 44px;
+  color: DarkRed;
+  font-weight: bold
+}
+h1 { /* Header 1 */
+  font-size: 30px;
+  color: DarkBlue;
+}
+h2 { /* Header 2 */
+  font-size: 24px;
+  color: DarkBlue;
+}
+h3 { /* Header 3 */
+  font-size: 22px;
+  color: DarkRed;
+}
+
+code.r{ /* Code block */
+  font-size: 18px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+pre { /* Code block - determines code spacing between lines */
+  font-size: 16px;
+}

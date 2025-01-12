@@ -1,0 +1,568 @@
+---
+title: "Applied Probability for Computer Science"
+subtitle: "Assignment Team 10"
+author: |
+  | Giovanni Costa - 880892
+  | Andrea Munarin - 879607
+  | Francesco Perencin - 880106
+date: "First semester AY 2022/23"
+geometry: "left=3cm,right=3cm,top=1cm,bottom=1cm"
+output:
+  html_document:
+    css: style.css
+    fig_caption: yes
+    theme: flatly
+    highlight: pygments
+    code_folding: show
+    toc: yes
+    toc_depth: 2
+    number_sections: no
+    toc_float:
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+    latex_engine: xelatex
+    number_sections: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\hfill\break
+<br>
+*If exports this markdown is needed it's suggested to install the R package "tinytex" (https://yihui.org/tinytex/) as follow:*
+```{r}
+#install.packages('tinytex')
+#tinytex::install_tinytex()
+#to uninstall TinyTeX, run tinytex::uninstall_tinytex() 
+```
+
+
+\newpage
+# Exercise 1
+16\) Poker dice is played by simultaneously rolling 5 dice\. Show that:
+
+* a\. $\mathbb P[no\, two\, alike] = 0.0926$; 
+* b\. $\mathbb P[one\, pair] = 0.4630$;
+* c\. $\mathbb P[two\, pair] = 0.2315$; 
+* d\. $\mathbb P[three\, alike] = 0.1543$;
+* e\. $\mathbb P[full\, house] = 0.0386$;
+* f\. $\mathbb P[four\, alike] = 0.0193$; 
+* g\. $\mathbb P[five\, alike] = 0.0008$
+
+
+**Answer**<br>
+Considering these problems, the dice tosses based on conditions can be formalized as the probability for an event where all the probabilities are mutually equal. All the possible combinations of numbers are obtained by rolling 5 dice, so the total number of cases is $6^5$, including repetitions, so in every scenario that will be the denominator.
+
+**Cases:**<br>
+a\) All 5 dice must be different so all of their combinations are a simple disposition $6*5*4*3*2$. In particular:
+\[\mathbb P[no\, two\, alike]=\frac{6*5*4*3*2}{6^5}=0.0926\]
+```{r}
+6*5*4*3*2/6^5
+```
+
+b\) The choice of a pair can be done with a combination without repetition and represented by ${6 \choose 1} \times {5 \choose 2}$, which points out the number of possible pairs without considering the order. The other values are extracted from the remaining number $(5*4*3)$, because the selection is unconstrained. In the end:
+\[\mathbb P[one\, pair]=\frac{{6 \choose 1} \times {5 \choose 2} \times 5 \times 4 \times 3}{6^5}=0.4630\]
+```{r}
+choose(6,1)*choose(5,2)*5*4*3/6^5
+```
+
+c\) Using the same intuition seen in point b, first select the possible combination for the two pairs and then consider the possible values for the last number:
+\[\mathbb P[two\, pair]=\frac{{6 \choose 2} \times {5 \choose 2} \times {3 \choose 2} \times 4}{6^5}=0.2315\]
+```{r}
+choose(6,2)*choose(5,2)*choose(3,2)*4/6^5
+```
+
+d\) Again, using the point b principle, select one number over the six possible and three possible rolls over the five dice, then add the possible values for the last two rolls:
+\[\mathbb P[three\, alike]=\frac{{6 \choose 1} \times {5 \choose 3} \times 5 \times 4}{6^5}=0.1543\]
+```{r}
+choose(6,1)*choose(5,3)*5*4/(6^5)
+```
+
+e\) Similarly, the result is obtained applying three alike and pair concepts:
+\[\mathbb P[full\, house]=\frac{{6 \choose 1} \times {5 \choose 3} \times {5 \choose 1} \times {2 \choose 2}}{6^5}=0.0386\]
+Here, the first between the pair and triad is given by six possible combinations, while the second one is picked from the five that are left.
+```{r}
+choose(6,1)*choose(5,3)*choose(5,1)*choose(2,2)/(6^5)
+```
+
+f\) Now, extract one number in four rolls and at the end there are five possible values for the last roll:
+\[\mathbb P[four\, alike]=\frac{{6 \choose 1} \times {5 \choose 4} \times 5}{6^5}=0.0193\]
+```{r}
+choose(6,1)*choose(5,4)*5/(6^5)
+```
+
+g\) Five alike is simply the extraction of one number for all the rolls:
+\[\mathbb P[five\, alike]=\frac{{6 \choose 1} \times {5 \choose 5}}{6^5}=0.0008\]
+```{r}
+choose(6,1)*choose(5,5)/(6^5)
+```
+
+
+
+
+# Exercise 2
+3\) A deck of cards is dealt out\.
+
+* What is the probability that the 14th card dealt is an ace?
+* What is the probability that the first ace occurs on the 14th card?
+
+**Answer**<br>
+Considering a deck of 52 card and given the fact that there is no replacement, 
+finding an ace at the 14th draw doesn't exclude the chance of finding one in a 
+previous attempt, so the solution is computed thanks to the hypergeometric 
+distribution and must consider 4 different scenarios after 13
+extractions:
+
+* a\. No ace was found
+* b\. 1 ace was found
+* c\. 2 aces were found
+* d\. 3 aces were found
+
+
+If all of them were found, then the chance of finding another one is equal
+to zero, so it doesn't affect the result. Each event then takes into account 
+possibility of drawing an ace from the remaining cards in the deck.
+In order to find the chance of having the first ace at the n-th extraction, it 
+has to consider n-1 failures.
+
+<i>Note: according to R documentation, the parameters of `dhyper` are:
+
+* x=number of ace dealt without replacement
+* m=total number of aces
+* n=total number of other cards
+* k=number of dealt starting from index 0
+</i>
+```{r}
+
+found0 <- dhyper(0,4,48,13)*(4/39)
+found1 <- dhyper(1,4,48,13)*(3/39) 
+found2 <- dhyper(2,4,48,13)*(2/39) 
+found3 <- dhyper(3,4,48,13)*(1/39)
+
+found0+found1+found2+found3 # 14th card is an ace
+
+found0 # ace on the 14th draw, 13 failures and then one success
+
+```
+
+
+
+
+# Exercise 3
+3\.35\) With probability 0\.6, the present was hidden by mom;
+with probability 0\.4, it was hidden by dad. When mom hides
+the present, she hides it upstairs 70 percent of the time and
+downstairs 30 percent of the time\. Dad is equally likely to
+hide it upstairs or downstairs
+
+* a\. What is the probability that the present is upstairs?
+* b\. Given that it is downstairs, what is the probability it was hidden by dad?
+
+
+**Answer**<br>
+The problem can be formalized as follows:
+
+* $\mathbb P[M]=0.6$ the probability that mom has hidden the present 
+* $\mathbb P[D]=0.4$ the probability that dad has hidden the present
+* $\mathbb P[Up|M]=0.7$ the probability that mom hides it upstairs 
+* $\mathbb P[Dw|M]=0.3$ the probability that she hides it downstairs
+* $\mathbb P[Up|D]=0.5$ the probability that dad hides it upstairs
+* $\mathbb P[Dw|D]=0.5$ the probability that he hides it downstairs 
+
+The answer to the question a simply uses the law of total probability
+\[\mathbb P[Up]=\mathbb P[Up|M]*\mathbb P[M] + \mathbb P[Up|D]*\mathbb P[D]\]
+The answer to the question b, instead, is given by the Bayes theorem \[\mathbb P[D|Dw]=\frac{\mathbb P[Dw|D]*\mathbb P[D]}{\mathbb P[Dw|D]*\mathbb P[D]+\mathbb P[Dw|M]*\mathbb P[M]}\]
+```{r}
+a<- 0.6*0.7+0.4*0.5
+a
+
+b<-(0.4*0.5)/(0.6*0.3+0.4*0.5)
+b
+```
+
+
+
+# Exercise 4
+3\.15\) In a certain species of rats, black dominates over
+brown\. Suppose that a black rat with two black parents
+has a brown sibling.
+
+* a\. What is the probability that this rat is a pure black rat (as opposed to being a hybrid with one black and one brown gene)?
+* b\. Suppose that when the black rat is mated with a brown rat, all 5 of their offspring are black. Now what is the probability that the rat is a pure black rat?
+
+**Answer**<br>
+First of all, it's mandatory to formalize the given data: each rat has two genes that 
+define its color and they can be represented with the symbols, $B=\text{black gene}$ and $b=\text{brown gene}$. 
+Since the black gene is the dominant one, there are four possibles cases:
+\[
+color = \begin{cases} 
+black, & \mbox{if genes=BB}\\
+black, & \mbox{if genes=Bb}\\
+black, & \mbox{if genes=bB}\\
+brown, & \mbox{if genes=bb}\\
+\end{cases}\]
+
+a\) In a situation with two black parents and a brown child, the only possible scenario is that the parents are not pure black 
+$(Genes_{mom} = Bb\text{ or }bB$ and $Genes_{dad} = Bb\text{ or }bB)$, so the probability for the children' genes are:
+\[
+genes_{child} = \begin{cases} 
+BB, & \mbox{p = 1/4}\\
+Bb, & \mbox{p = 1/4}\\
+bB, & \mbox{p = 1/4}\\
+bb, & \mbox{p = 1/4}\\
+\end{cases}\]
+Given that
+\[\mathbb P[color_{child}=black]=\]
+\[=\mathbb P[genes_{child}=BB]+\mathbb P[genes_{child}=Bb]+\mathbb P[genes_{child}=bB]=3/4\]
+the probability that the child has a BB genes configuration (pure black) knowing that his color is black is the following:
+\[
+\mathbb P[Genes_{child}=BB|Color_{child}=black]=\]
+\[=\frac{\mathbb P[Genes_{child}=BB \cap Color_{child}=black]}{\mathbb P[Color_{child}=black]}=\frac{1/4}{3/4}=\frac{1}{3}
+\]
+
+b\) The Bayes theorem is needed in order to solve the second point. In particular it's noticed that the rat is pure black with probability $1/3$ (as seen) and mixed with $2/3$ ($1$ - $1/3$), while the probability that it gives birth to five black children is assumed to be $100\%$ due to one of the parents being pure black and can be described by a binomial distribution:
+
+\[\mathbb P[PureBlack]=1/3\]
+\[\mathbb P[MixedGenes]=2/3\]
+\[X \sim Binomial(5, 0.5)\]
+
+\[\mathbb P[FiveBlackChildren]=\mathbb P[FiveBlackChildren|PureBlack]+\mathbb P[FiveBlackChildren|MixedGenes]=\]
+\[1/3*1+2/3*\mathbb P[X=5]=0.3541667\]
+```{r}
+pure_black <- 1/3
+mixed_genes <- 2/3
+five_children_mixed_genes <- mixed_genes*dbinom(5,5,0.5)
+five_children_mixed_genes
+
+#law of total probability
+five_children <- pure_black+five_children_mixed_genes
+five_children
+```
+
+\[\mathbb P[PureBlack|FiveBlackChildren]=\]
+\[\frac{\mathbb P[FiveBlackChildren|PureBlack]}{\mathbb P[FiveBlackChildren]}=\]
+\[\frac{1/3}{0.3541667}=0.9411765\]
+```{r}
+#Bayes Theorem
+pure_black_five_children <- pure_black/(five_children)
+pure_black_five_children
+```
+
+
+
+# Exercise 5
+4\.5\) Let X represent the difference between the number of heads and the number of tails obtained when a coin is tossed n times\.
+
+What are the possible values of X?
+
+**Answer**<br>
+The possible values of $X=\#heads - \#tails$ depends on the number of times n that the coin is tossed, with the trivial case being $X=0$ when $n=0$\.
+For example, if $n=1$ the possible values can be:
+\[
+X = \begin{cases}
+1, & \mbox{if num of heads=1 and num of tails=0}\\
+-1, & \mbox{if num of heads=0 and num of tails=1}\\
+\end{cases}\]
+Meanwhile, if $n=2$ the values are:
+\[
+X = \begin{cases} 
+2, & \mbox{if num of heads=2 and num of tails=0}\\
+0, & \mbox{if num of heads=1 and num of tails=1}\\
+-2, & \mbox{if num of heads=0 and num of tails=2}\\
+\end{cases}\]
+
+If this problem is generalized to n=k, by induction, the values of X depends on whether k is even or odd (but in both cases the domain goes from -k to k). In particular, these discrete domains contains only the even values if k is even or the odd ones if k is odd.
+
+
+
+# Exercise 6
+4\.14\) On average, 5\.2 hurricanes hit a certain region in a year.
+
+What is the probability that there will be 3 or fewer hurricanes hitting this year?
+
+**Answer**<br>
+In this question, the event can be modeled using a Poisson distribution with $\mathbb E[X]=\lambda=5.2$, since the occurrence of a hurricane can be considered a rare event. Hence, to solve the question it's sufficient to compute the CDF of this Poisson random variable $\mathbb P[X \leq 3]$.
+
+```{r}
+x<-0:15
+lambda <- 5.2
+probs<-dpois(x, lambda)
+
+plot(x, probs, type = "h", lwd = 2,
+     main = "Poisson distribution with lambda=5.2",
+     ylab = "P(X = x)", xlab = "Number of events", col = ifelse(x <= 3,'red','black'))
+axis(side=1, at=0:15)
+
+
+ppois(3, 5.2)
+```
+
+
+
+
+# Exercise 7
+5\.37\) If X is uniformly distributed over (−1, 1), find:
+
+* a\. P{|X| > 1/2 };
+* b\. the density function of the random variable |X|\.
+
+**Answer**<br>
+a) The probability $\mathbb P[|X|>1/2]$ can be expressed and resolved using the following formula:
+\[\mathbb P[|X|>1/2]=\mathbb P[X<-1/2 \cup X>1/2]=\mathbb P[X<-1/2]+\mathbb P[X>1/2]=0.5\]
+
+
+```{r echo=FALSE, results='hide'}
+#Continuous PDF plot
+# x: grid of X-axis values (optional)
+# min: lower limit of the distribution (a)
+# max: upper limit of the distribution (b)
+# lwd: line width of the segments of the graph
+# col: color of the segments and points of the graph
+# ...: additional arguments to be passed to the plot function
+plotunif <- function(x, min = 0, max = 1, lwd = 1, col = 1, ...) {
+
+    # Grid of X-axis values
+    if (missing(x)) {
+        x <- seq(min - 0.5, max + 0.5, 0.01)
+    }
+
+    if(max < min) {
+        stop("'min' must be lower than 'max'")
+    }
+   
+    plot(x, dunif(x, min = min, max = max),
+         xlim = c(min - 0.25, max + 0.25), type = "l",
+         lty = 0, ylab = "f(x)", ...) 
+    segments(min, 1/(max - min), max, 1/(max - min), col = col, lwd = lwd)
+    segments(min - 2, 0, min, 0, lwd = lwd, col = col)
+    segments(max, 0, max + 2, 0, lwd = lwd, col = col)
+    points(min, 1/(max - min), pch = 19, col = col)
+    points(max, 1/(max - min), pch = 19, col = col)
+    segments(min, 0, min, 1/(max - min), lty = 2, col = col, lwd = lwd)
+    segments(max, 0, max, 1/(max - min), lty = 2, col = col, lwd = lwd)
+    points(0, min, pch = 21, col = col, bg = "white")
+    points(max, min, pch = 21, col = col, bg = "white")
+}
+```
+
+```{r}
+punif(-1/2,-1,1) + punif(1/2,-1,1,lower.tail = FALSE) 
+```
+
+b) Since $X$ is distributed over:
+\[f_X(x)=\begin{cases} 
+\frac{1}{2}: x\in (-1,1)\\
+0:\text{ otherwise}
+\end{cases}
+\]
+the density function of $|X|$ can be obtained by dividing the interval in which the value of $x$ is negative:
+\[f_{|x|}(x)= (f_X(x)+f_X(-x)) \, \mathbb{1}_{x \in (0,1)}= \begin{cases} 
+1:x \in (0,1)\\
+0:\text{ otherwise}
+\end{cases}\]
+
+```{r, echo=FALSE}
+plotunif(min = 0, max = 1, lwd = 2, col = 4, main = "|X| PDF")
+```
+
+
+
+
+
+# Exercise 8
+5\.8\) A randomly chosen IQ test taker obtains a score that
+is approximately a normal random variable with mean 100
+and standard deviation 15\.
+
+What is the probability that the score of such a person is (a) more than 125;
+(b) between 90 and 110?
+
+**Answer**
+it's assumed that the score taken in IQ test can be modeled as a random variable $X \sim Normal(100, 15^2)$, so in order to find the solutions, it's sufficient to calculate the CDF of the Normal distribution using `pnorm` command that can be formalized as \[\mathbb P[X>125]=1-\mathbb P[X\leq125]\] and \[\mathbb P[90\leq X \leq 110]=\mathbb P[X\leq 110]-\mathbb P[X\leq 90]\]
+
+***Note** that by definition using continuous distribution the probability of $\mathbb P[X=x]=0$, so writing $\mathbb P[X<x]$ or $\mathbb P[X<x]$ is basically the same*
+
+```{r echo=FALSE, results='hide'}
+#Normal CDF plot function
+# mean: mean of the Normal variable
+# sd: standard deviation of the Normal variable
+# lb: lower bound of the area
+# ub: upper bound of the area
+# acolor: color of the area
+# ...: additional arguments to be passed to lines function
+
+normal_area <- function(mean = 0, sd = 1, lb, ub, acolor = "lightblue", ...) {
+    x <- seq(mean - 3 * sd, mean + 3 * sd, length = 100) 
+    
+    if (missing(lb)) {
+       lb <- min(x)
+    }
+    if (missing(ub)) {
+        ub <- max(x)
+    }
+
+    x2 <- seq(lb, ub, length = 100)    
+    plot(x, dnorm(x, mean, sd), type = "n", ylab = "f(x)", ...)
+   
+    y <- dnorm(x2, mean, sd)
+    polygon(c(lb, x2, ub), c(0, y, 0), col = acolor, border=acolor)
+    lines(x, dnorm(x, mean, sd), type = "l", lw=2, col=4)
+}
+```
+```{r}
+mu <- 100
+std_dev <- 15
+1-pnorm(125, mu, std_dev) #a) answer
+```
+
+```{r echo=FALSE, results='hide'}
+normal_area(mean = 100, sd = 15, lb = 125, main="Normal distribution (P[X>125])")
+```
+
+
+```{r}
+pnorm(110, mu, std_dev)-pnorm(90, mu, std_dev) #b) answer
+```
+
+
+```{r echo=FALSE, results='hide'}
+normal_area(mean = 100, sd = 15, lb = 90, ub = 110, main="Normal distribution (P[90<X<110])")
+```
+
+
+
+
+# Exercise 9
+6\.29\) The gross weekly sales at a certain restaurant are a
+normal random variable with mean $2200 and standard
+deviation $230\.<br>
+What is the probability that
+* a\. the total gross sales over the next 2 weeks exceeds $5000;
+* b\. weekly sales exceed $2000 in at least 2 of the next 3 weeks?
+What independence assumptions have you made?
+
+**Answer**
+As the problem states, the Random Variable that represents the gross weekly sales is described as follows:
+\[X\sim N(2200, 230^2)\]
+
+a) The random variable that describes the total gross sales in the next 2 weeks can be obtained by the sum of the X seen before:
+\[Y = X+X\sim N(2200+2200, 230^2+230^2)\]
+So the probability that the total gross sales over the next 2 weeks exceeds $5000 is the result of the following formula:
+\[\mathbb P[Y>5000] = 1-\mathbb P[Y\leq 5000]=0.03254595\]
+
+b) **Assuming that weekly sales are independent**, the random variable $W$ is a Binomial with $n=3$ and $p=0.807731$ where $p$ is obtain through 
+$\mathbb P[X>2000]=1-\mathbb P[X\leq 2000]=0.807731$
+
+So the final answer will be:
+\[\mathbb P[Z>1]=1-\mathbb P[Z\leq 1]=0.9033132\text{, where }W\sim Binomial(3, 0.807731)\]
+```{r}
+1-pnorm(5000, 4400, sqrt(230^2+230^2))
+
+p <- 1-pnorm(2000, 2200, 230)
+p
+
+1-pbinom(1,3,p)
+```
+
+
+
+
+# Exercise 10
+6\.15\) Let X and Y be independent uniform (0, 1) random
+variables\.
+
+* a\. Find the joint density of U = X, V = X + Y\.
+* b\. Use the result obtained in part (a) to compute the density function of V\.
+
+**Answer**<br>
+Being $X$ distributed over a Unif(0,1), its probability density function is
+\[f_{X}(x) = \begin{cases} 
+\frac{1}{b-a} & a\leq x\leq b\\
+0 & \mbox{otherwise}\\
+\end{cases}\]
+where $a=0$ and $b=1$. Considering that $Y$ shares the same distribution and the fact that they are independent and it's possible to compute their the joint density as $f_{X, Y}(x, y)=f_X(x)*f_Y(y)$.<br>
+Now, to answer at the question a\., the variables $U=X$ and $V=X+Y$ can be expressed in terms of $X$ and $Y$, e\.i\. $X=U$ , $Y=V-X=V-U$.
+Doing so, it's possible computing joint density of $f_{U, V}(u, v)$ applying a variable substitution in the joint density of $X$ and $Y$ and multiplying it by $|J|$, which is the determinant of the Jacobian matrix $J$ from $X$ and $Y$ to $U$ and $V$:
+
+
+\[J=\begin{pmatrix}u\frac{dx}{du}=1 \hspace{1cm}u\frac{dx}{dv}=0\\v-u\frac{dy}{du}=-1\hspace{1cm} v-u\frac{dy}{dv}=1\\\end{pmatrix}\]
+and
+\[|J| = 1*1-(-1)*0=1\]
+
+
+\[f_{U, V}(u, v)=f_{X,Y}(u,v-u)*|J|\]
+
+*The Jacobian transformation is an algebraic method for determining the probability distribution of a variable $Y$ that is a function of just one other variable $X$ (i.e. $Y$ is a transformation of $X$) when we know the probability distribution for $X$.*
+
+So, remembering that the definition of the uniform distribution between $0$ and $1$ is $f_X(x)=\frac{1}{1-0} \, \mathbb{1}_{x \in [0, 1]}$ the computation of final distribution is:
+\[
+f_{U,V}(u, v) = \begin{cases} 
+1 & 0\leq u\leq 1 \mbox{ and } u\leq v \leq 1+u\\
+0 & \mbox{otherwise}\\
+\end{cases}\]
+
+which is equal to write:
+\[f_{U,V}(u, v)= \mathbb{1}_{(max(v-1,0) < u <min(v, 1))} \]
+
+
+Considering that $V$ is the sum of two Uniform distributions between $0$ and $1$, then $V \in (0,2)$ for sure. In order to find $f_V(v)$ for question b, it's sufficient to compute the integral of $f_{U, V}(u, v)$ by differentiating for $du$. That means it must be split in two parts
+\[ f_V(v)=\int_{0}^{v} f_{U, V}(u, v) \,du = v\]
+and
+\[f_V(v)=\int_{v-1}^{1} f_{U, V}(u, v) \,du = 1-v+1=2-v\]
+
+So, summarizing:
+\[f_{V}(v) = \begin{cases} 
+v & 0\leq v\leq 1 \\
+2-v & 1\leq v\leq 2\\
+\end{cases}\]
+
+# Exercise 11
+7\.31\) In Problem 7\.6, calculate the variance of the sum of the rolls\.<br>
+7\.6\) A fair die is rolled 10 times. Calculate the expected sum of the 10 rolls\.
+
+
+**Answer**<br>
+The behavior of the 10 rolls is defined with a random variable, as follow:
+\[S_{10}=\sum_{i=1}^{10}{X_i}\]
+where
+\[X_i = \begin{cases} 
+1, & \mbox{with probability = 1/6}\\
+2, & \mbox{with probability = 1/6}\\
+3, & \mbox{with probability = 1/6}\\
+4, & \mbox{with probability = 1/6}\\
+5, & \mbox{with probability = 1/6}\\
+6, & \mbox{with probability = 1/6}\\
+\end{cases}, \text{for }1<i<10\]
+It's also possible to say that all the $X_i$ are **independent** from each other.<br>
+Hence, it's feasible calculating the expected sum of the $X_i$:
+\[\mathbb E[X_i]=\sum_{i=1}^{6}{x_ip_i}\]
+```{r}
+#Expected value of 1 roll
+#E[x]
+e<-1*1/6 + 2*1/6 + 3*1/6 + 4*1/6 + 5*1/6 + 6*1/6
+e
+```
+and the variance:
+\[Var[X_i]=\mathbb E[X_i^2]-\mathbb E[X_i]^2\]
+```{r}
+#E[x^2]
+e2<-1^2*1/6 + 2^2*1/6 + 3^2*1/6 + 4^2*1/6 + 5^2*1/6 + 6^2*1/6
+e2
+#Var[x]
+var<-e2-e^2
+var
+```
+And at the end it's possible to compute the variance of the sum of the 10 random variables using the variance property: 
+\[Var[S_{10}]=Var[\sum_{i=1}^{10}{X_i}]=10*Var[X_i]\]
+```{r}
+#Var[x+x+x+x+x+x+x+x+x+x] = 10Var[x]
+var10<-10*var
+var10
+```
+

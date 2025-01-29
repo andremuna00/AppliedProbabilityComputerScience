@@ -1,0 +1,837 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[left=3cm,right=3cm,top=1cm,bottom=1cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Assignment Team 10 - Applied Probability},
+  pdfauthor={Giovanni Costa 880892 - Andrea Munarin 879607 - Francesco Perencin 880106},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignment Team 10 - Applied Probability}
+\author{Giovanni Costa 880892 - Andrea Munarin 879607 - Francesco
+Perencin 880106}
+\date{First semester AY 2022/23}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{exercise-1}{%
+\section{Exercise 1}\label{exercise-1}}
+
+16) Poker dice is played by simultaneously rolling 5 dice. Show that:
+
+\begin{itemize}
+\tightlist
+\item
+  a. \(\mathbb P[no\, two\, alike] = 0.0926\);
+\item
+  b. \(\mathbb P[one\, pair] = 0.4630\);
+\item
+  c. \(\mathbb P[two\, pair] = 0.2315\);
+\item
+  d. \(\mathbb P[three\, alike] = 0.1543\);
+\item
+  e. \(\mathbb P[full\, house] = 0.0386\);
+\item
+  f. \(\mathbb P[four\, alike] = 0.0193\);
+\item
+  g. \(\mathbb P[five\, alike] = 0.0008\)
+\end{itemize}
+
+\textbf{Answer} Considering these problems, the dice tosses based on
+conditions can be formalized as the probability for an event where all
+the probabilities are mutually equal. All the possible combinations of
+numbers are obtained by rolling 5 dice, so the total number of cases is
+\(6^5\), including repetitions, so in every scenario that will be the
+denominator.
+
+\textbf{Cases:} a) All 5 dice must be different so all of their
+combinations are a simple disposition \(6*5*4*3*2\). In particular:
+\[\mathbb P[no\, two\, alike]=\frac{6*5*4*3*2}{6^5}=0.0926\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{6}\SpecialCharTok{*}\DecValTok{5}\SpecialCharTok{*}\DecValTok{4}\SpecialCharTok{*}\DecValTok{3}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{/}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.09259259
+\end{verbatim}
+
+b) The choice of a pair can be done with a combination without
+repetition and represented by \({6 \choose 1} \times {5 \choose 2}\),
+which points out the number of possible pairs without considering the
+order. The other values are extracted from the remaining number
+\((5*4*3)\), because the selection is unconstrained. In the end:
+\[\mathbb P[one\, pair]=\frac{{6 \choose 1} \times {5 \choose 2} \times 5 \times 4 \times 3}{6^5}=0.4630\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\DecValTok{5}\SpecialCharTok{*}\DecValTok{4}\SpecialCharTok{*}\DecValTok{3}\SpecialCharTok{/}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.462963
+\end{verbatim}
+
+c) Using the same intuition seen in point b, first select the possible
+combination for the two pairs and then consider the possible values for
+the last number:
+\[\mathbb P[two\, pair]=\frac{{6 \choose 2} \times {5 \choose 2} \times {3 \choose 2} \times 4}{6^5}=0.2315\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\DecValTok{4}\SpecialCharTok{/}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2314815
+\end{verbatim}
+
+d) Again, using the point b principle, select one number over the six
+possible and three possible rolls over the five dice, then add the
+possible values for the last two rolls:
+\[\mathbb P[three\, alike]=\frac{{6 \choose 1} \times {5 \choose 3} \times 5 \times 4}{6^5}=0.1543\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{)}\SpecialCharTok{*}\DecValTok{5}\SpecialCharTok{*}\DecValTok{4}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.154321
+\end{verbatim}
+
+e) Similarly, the result is obtained applying three alike and pair
+concepts:
+\[\mathbb P[full\, house]=\frac{{6 \choose 1} \times {5 \choose 3} \times {5 \choose 1} \times {2 \choose 2}}{6^5}=0.0386\]
+Here, the first between the pair and triad is given by six possible
+combinations, while the second one is picked from the five that are
+left.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03858025
+\end{verbatim}
+
+f) Now, extract one number in four rolls and at the end there are five
+possible values for the last roll:
+\[\mathbb P[four\, alike]=\frac{{6 \choose 1} \times {5 \choose 4} \times 5}{6^5}=0.0193\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{)}\SpecialCharTok{*}\DecValTok{5}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01929012
+\end{verbatim}
+
+g) Five alike is simply the extraction of one number for all the rolls:
+\[\mathbb P[five\, alike]=\frac{{6 \choose 1} \times {5 \choose 5}}{6^5}=0.0008\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{choose}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0007716049
+\end{verbatim}
+
+\hypertarget{exercise-2}{%
+\section{Exercise 2}\label{exercise-2}}
+
+3) A deck of cards is dealt out.
+
+\begin{itemize}
+\tightlist
+\item
+  What is the probability that the 14th card dealt is an ace?
+\item
+  What is the probability that the first ace occurs on the 14th card?
+\end{itemize}
+
+\textbf{Answer} Considering a deck of 52 card and given the fact that
+there is no replacement, finding an ace at the 14th draw doesn't exclude
+the chance of finding one in a previous attempt, so the solution is
+computed thanks to the hypergeometric distribution and must consider 4
+different scenarios after 13 extractions:
+
+\begin{itemize}
+\tightlist
+\item
+  a. No ace was found
+\item
+  b. 1 ace was found
+\item
+  c. 2 aces were found
+\item
+  d. 3 aces were found
+\end{itemize}
+
+If all of them were found, then the chance of finding another one is
+equal to zero, so it doesn't affect the result. Each event then takes
+into account possibility of drawing an ace from the remaining cards in
+the deck. In order to find the chance of having the first ace at the
+n-th extraction, it has to consider n-1 failures.
+
+Note: according to R documentation, the parameters of \texttt{dhyper}
+are:
+
+\begin{itemize}
+\tightlist
+\item
+  x=number of ace dealt without replacement
+\item
+  m=total number of aces
+\item
+  n=total number of other cards
+\item
+  k=number of dealt starting from index 0
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{found0 }\OtherTok{\textless{}{-}} \FunctionTok{dhyper}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{48}\NormalTok{,}\DecValTok{13}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{4}\SpecialCharTok{/}\DecValTok{39}\NormalTok{)}
+\NormalTok{found1 }\OtherTok{\textless{}{-}} \FunctionTok{dhyper}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{48}\NormalTok{,}\DecValTok{13}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{3}\SpecialCharTok{/}\DecValTok{39}\NormalTok{) }
+\NormalTok{found2 }\OtherTok{\textless{}{-}} \FunctionTok{dhyper}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{48}\NormalTok{,}\DecValTok{13}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{2}\SpecialCharTok{/}\DecValTok{39}\NormalTok{) }
+\NormalTok{found3 }\OtherTok{\textless{}{-}} \FunctionTok{dhyper}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{48}\NormalTok{,}\DecValTok{13}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{39}\NormalTok{)}
+
+\NormalTok{found0}\SpecialCharTok{+}\NormalTok{found1}\SpecialCharTok{+}\NormalTok{found2}\SpecialCharTok{+}\NormalTok{found3 }\CommentTok{\# 14th card is an ace}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.07692308
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{found0 }\CommentTok{\# ace on the 14th draw, 13 failures and then one success}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03116077
+\end{verbatim}
+
+\hypertarget{exercise-3}{%
+\section{Exercise 3}\label{exercise-3}}
+
+3.35) With probability 0.6, the present was hidden by mom; with
+probability 0.4, it was hidden by dad. When mom hides the present, she
+hides it upstairs 70 percent of the time and downstairs 30 percent of
+the time. Dad is equally likely to hide it upstairs or downstairs
+
+\begin{itemize}
+\tightlist
+\item
+  a. What is the probability that the present is upstairs?
+\item
+  b. Given that it is downstairs, what is the probability it was hidden
+  by dad?
+\end{itemize}
+
+\textbf{Answer} The problem can be formalized as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathbb P[M]=0.6\) the probability that mom has hidden the present
+\item
+  \(\mathbb P[D]=0.4\) the probability that dad has hidden the present
+\item
+  \(\mathbb P[Up|M]=0.7\) the probability that mom hides it upstairs
+\item
+  \(\mathbb P[Dw|M]=0.3\) the probability that she hides it downstairs
+\item
+  \(\mathbb P[Up|D]=0.5\) the probability that dad hides it upstairs
+\item
+  \(\mathbb P[Dw|D]=0.5\) the probability that he hides it downstairs
+\end{itemize}
+
+The answer to the question a simply uses the law of total probability
+\[\mathbb P[Up]=\mathbb P[Up|M]*\mathbb P[M] + \mathbb P[Up|D]*\mathbb P[D]\]
+The answer to the question b, instead, is given by the Bayes theorem
+\[\mathbb P[D|Dw]=\frac{\mathbb P[Dw|D]*\mathbb P[D]}{\mathbb P[Dw|D]*\mathbb P[D]+\mathbb P[Dw|M]*\mathbb P[M]}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a}\OtherTok{\textless{}{-}} \FloatTok{0.6}\SpecialCharTok{*}\FloatTok{0.7+0.4}\SpecialCharTok{*}\FloatTok{0.5}
+\NormalTok{a}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.62
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b}\OtherTok{\textless{}{-}}\NormalTok{(}\FloatTok{0.4}\SpecialCharTok{*}\FloatTok{0.5}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\FloatTok{0.6}\SpecialCharTok{*}\FloatTok{0.3+0.4}\SpecialCharTok{*}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5263158
+\end{verbatim}
+
+\hypertarget{exercise-4}{%
+\section{Exercise 4}\label{exercise-4}}
+
+3.15) In a certain species of rats, black dominates over brown. Suppose
+that a black rat with two black parents has a brown sibling.
+
+\begin{itemize}
+\tightlist
+\item
+  a. What is the probability that this rat is a pure black rat (as
+  opposed to being a hybrid with one black and one brown gene)?
+\item
+  b. Suppose that when the black rat is mated with a brown rat, all 5 of
+  their offspring are black. Now what is the probability that the rat is
+  a pure black rat?
+\end{itemize}
+
+\textbf{Answer} First of all, it's mandatory to formalize the given
+data: each rat has two genes that define its color and they can be
+represented with the symbols, \(B=\text{black gene}\) and
+\(b=\text{brown gene}\). Since the black gene is the dominant one, there
+are four possibles cases: \[
+color = \begin{cases} 
+black, & \mbox{if genes=BB}\\
+black, & \mbox{if genes=Bb}\\
+black, & \mbox{if genes=bB}\\
+brown, & \mbox{if genes=bb}\\
+\end{cases}\]
+
+a) In a situation with two black parents and a brown child, the only
+possible scenario is that the parents are not pure black
+\((Genes_{mom} = Bb\text{ or }bB\) and
+\(Genes_{dad} = Bb\text{ or }bB)\), so the probability for the children'
+genes are: \[
+genes_{child} = \begin{cases} 
+BB, & \mbox{p = 1/4}\\
+Bb, & \mbox{p = 1/4}\\
+bB, & \mbox{p = 1/4}\\
+bb, & \mbox{p = 1/4}\\
+\end{cases}\] Given that \[\mathbb P[color_{child}=black]=\]
+\[=\mathbb P[genes_{child}=BB]+\mathbb P[genes_{child}=Bb]+\mathbb P[genes_{child}=bB]=3/4\]
+the probability that the child has a BB genes configuration (pure black)
+knowing that his color is black is the following: \[
+\mathbb P[Genes_{child}=BB|Color_{child}=black]=\]
+\[=\frac{\mathbb P[Genes_{child}=BB \cap Color_{child}=black]}{\mathbb P[Color_{child}=black]}=\frac{1/4}{3/4}=\frac{1}{3}
+\]
+
+b) The Bayes theorem is needed in order to solve the second point. In
+particular it's noticed that the rat is pure black with probability
+\(1/3\) (as seen) and mixed with \(2/3\) (\(1\) - \(1/3\)), while the
+probability that it gives birth to five black children is assumed to be
+\(100\%\) due to one of the parents being pure black and can be
+described by a binomial distribution:
+
+\[\mathbb P[PureBlack]=1/3\] \[\mathbb P[MixedGenes]=2/3\]
+\[X \sim Binomial(5, 0.5)\]
+
+\[\mathbb P[FiveBlackChildren]=\mathbb P[FiveBlackChildren|PureBlack]+\mathbb P[FiveBlackChildren|MixedGenes]=\]
+\[1/3*1+2/3*\mathbb P[X=5]=0.3541667\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pure\_black }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\DecValTok{3}
+\NormalTok{mixed\_genes }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{/}\DecValTok{3}
+\NormalTok{five\_children\_mixed\_genes }\OtherTok{\textless{}{-}}\NormalTok{ mixed\_genes}\SpecialCharTok{*}\FunctionTok{dbinom}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{,}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{five\_children\_mixed\_genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02083333
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#law of total probability}
+\NormalTok{five\_children }\OtherTok{\textless{}{-}}\NormalTok{ pure\_black}\SpecialCharTok{+}\NormalTok{five\_children\_mixed\_genes}
+\NormalTok{five\_children}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3541667
+\end{verbatim}
+
+\[\mathbb P[PureBlack|FiveBlackChildren]=\]
+\[\frac{\mathbb P[FiveBlackChildren|PureBlack]}{\mathbb P[FiveBlackChildren]}=\]
+\[\frac{1/3}{0.3541667}=0.9411765\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Bayes Theorem}
+\NormalTok{pure\_black\_five\_children }\OtherTok{\textless{}{-}}\NormalTok{ pure\_black}\SpecialCharTok{/}\NormalTok{(five\_children)}
+\NormalTok{pure\_black\_five\_children}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9411765
+\end{verbatim}
+
+\hypertarget{exercise-5}{%
+\section{Exercise 5}\label{exercise-5}}
+
+4.5) Let X represent the difference between the number of heads and the
+number of tails obtained when a coin is tossed n times.
+
+What are the possible values of X?
+
+\textbf{Answer} The possible values of \(X=\# heads - \# tails\) depends
+on the number of times n that the coin is tossed, with the trivial case
+being \(X=0\) when \(n=0\). For example, if \(n=1\) the possible values
+can be: \[
+X = \begin{cases} 
+1, & \mbox{if #heads=1 & #tails=0}\\
+-1, & \mbox{if #heads=0 & #tails=1}\\
+\end{cases}\] Meanwhile, if \(n=2\) the values are: \[
+X = \begin{cases} 
+2, & \mbox{if #heads=2 & #tails=0}\\
+0, & \mbox{if #heads=1 & #tails=1}\\
+-2, & \mbox{if #heads=0 & #tails=2}\\
+\end{cases}\]
+
+If this problem is generalized to n=k, by induction, the values of X
+depends on whether k is even or odd (but in both cases the domain goes
+from -k to k). In particular, these discrete domains contains only the
+even values if k is even or the odd ones if k is odd.
+
+\hypertarget{exercise-6}{%
+\section{Exercise 6}\label{exercise-6}}
+
+4.14) On average, 5.2 hurricanes hit a certain region in a year.
+
+What is the probability that there will be 3 or fewer hurricanes hitting
+this year?
+
+\textbf{Answer} In this question, the event can be modeled using a
+Poisson distribution with \(\mathbb E[X]=\lambda=5.2\), since the
+occurrence of a hurricane can be considered a rare event. Hence, to
+solve the question it's sufficient to compute the CDF of this Poisson
+random variable \(\mathbb P[X \leq 3]\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x}\OtherTok{\textless{}{-}}\DecValTok{0}\SpecialCharTok{:}\DecValTok{15}
+\NormalTok{lambda }\OtherTok{\textless{}{-}} \FloatTok{5.2}
+\NormalTok{probs}\OtherTok{\textless{}{-}}\FunctionTok{dpois}\NormalTok{(x, lambda)}
+
+\FunctionTok{plot}\NormalTok{(x, probs, }\AttributeTok{type =} \StringTok{"h"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Poisson distribution with lambda=5.2"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"P(X = x)"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Number of events"}\NormalTok{, }\AttributeTok{col =} \FunctionTok{ifelse}\NormalTok{(x }\SpecialCharTok{\textless{}=} \DecValTok{3}\NormalTok{,}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{))}
+\FunctionTok{axis}\NormalTok{(}\AttributeTok{side=}\DecValTok{1}\NormalTok{, }\AttributeTok{at=}\DecValTok{0}\SpecialCharTok{:}\DecValTok{15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Team10_solved_assignment_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ppois}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{5.2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2380655
+\end{verbatim}
+
+\hypertarget{exercise-7}{%
+\section{Exercise 7}\label{exercise-7}}
+
+5.37) If X is uniformly distributed over (−1, 1), find:
+
+\begin{itemize}
+\tightlist
+\item
+  a. P\{\textbar X\textbar{} \textgreater{} 1/2 \};
+\item
+  b. the density function of the random variable \textbar X\textbar.
+\end{itemize}
+
+\textbf{Answer} a) The probability \(\mathbb P[|X|>1/2]\) can be
+expressed and resolved using the following formula:
+\[\mathbb P[|X|>1/2]=\mathbb P[X<-1/2 \cup X>1/2]=\mathbb P[X<-1/2]+\mathbb P[X>1/2]=0.5\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{punif}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{punif}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Since \(X\) is distributed over: \[f_X(x)=\begin{cases} 
+  \frac{1}{2}: x\in (-1,1)\\
+  0:\text{ otherwise}
+  \end{cases}
+  \] the density function of \(|X|\) can be obtained by dividing the
+  interval in which the value of \(x\) is negative:
+  \[f_{|x|}(x)= (f_X(x)+f_X(-x)) \, \mathbb{1}_{x \in (0,1)}= \begin{cases} 
+  1:x \in (0,1)\\
+  0:\text{ otherwise}
+  \end{cases}\]
+\end{enumerate}
+
+\includegraphics{Team10_solved_assignment_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\hypertarget{exercise-8}{%
+\section{Exercise 8}\label{exercise-8}}
+
+5.8) A randomly chosen IQ test taker obtains a score that is
+approximately a normal random variable with mean 100 and standard
+deviation 15.
+
+What is the probability that the score of such a person is (a) more than
+125; (b) between 90 and 110?
+
+\textbf{Answer} it's assumed that the score taken in IQ test can be
+modeled as a random variable \(X \sim Normal(100, 15^2)\), so in order
+to find the solutions, it's sufficient to calculate the CDF of the
+Normal distribution using \texttt{pnorm} command that can be formalized
+as \[\mathbb P[X>125]=1-\mathbb P[X\leq125]\] and
+\[\mathbb P[90\leq X \leq 110]=\mathbb P[X\leq 110]-\mathbb P[X\leq 90]\]
+
+\emph{\textbf{Note} that by definition using continuous distribution the
+probability of \(\mathbb P[X=x]=0\), so writing \(\mathbb P[X<x]\) or
+\(\mathbb P[X<x]\) is basically the same}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu }\OtherTok{\textless{}{-}} \DecValTok{100}
+\NormalTok{std\_dev }\OtherTok{\textless{}{-}} \DecValTok{15}
+\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\DecValTok{125}\NormalTok{, mu, std\_dev) }\CommentTok{\#a) answer}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.04779035
+\end{verbatim}
+
+\includegraphics{Team10_solved_assignment_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pnorm}\NormalTok{(}\DecValTok{110}\NormalTok{, mu, std\_dev)}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\DecValTok{90}\NormalTok{, mu, std\_dev) }\CommentTok{\#b) answer}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4950149
+\end{verbatim}
+
+\includegraphics{Team10_solved_assignment_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\hypertarget{exercise-9}{%
+\section{Exercise 9}\label{exercise-9}}
+
+6.29) The gross weekly sales at a certain restaurant are a normal random
+variable with mean \$2200 and standard deviation \$230. What is the
+probability that * a. the total gross sales over the next 2 weeks
+exceeds \$5000; * b. weekly sales exceed \$2000 in at least 2 of the
+next 3 weeks? What independence assumptions have you made?
+
+\textbf{Answer} As the problem states, the Random Variable that
+represents the gross weekly sales is described as follows:
+\[X\sim N(2200, 230^2)\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  The random variable that describes the total gross sales in the next 2
+  weeks can be obtained by the sum of the X seen before:
+  \[Y = X+X\sim N(2200+2200, 230^2+230^2)\] So the probability that the
+  total gross sales over the next 2 weeks exceeds \$5000 is the result
+  of the following formula:
+  \[\mathbb P[Y>5000] = 1-\mathbb P[Y\leq 5000]=0.03254595\]
+\item
+  \textbf{Assuming that weekly sales are independent}, the random
+  variable \(W\) is a Binomial with \(n=3\) and \(p=0.807731\) where
+  \(p\) is obtain through
+  \(\mathbb P[X>2000]=1-\mathbb P[X\leq 2000]=0.807731\)
+\end{enumerate}
+
+So the final answer will be:
+\[\mathbb P[Z>1]=1-\mathbb P[Z\leq 1]=0.9033132\text{, where }W\sim Binomial(3, 0.807731)\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\DecValTok{5000}\NormalTok{, }\DecValTok{4400}\NormalTok{, }\FunctionTok{sqrt}\NormalTok{(}\DecValTok{230}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{+}\DecValTok{230}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03254595
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{2200}\NormalTok{, }\DecValTok{230}\NormalTok{)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.807731
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pbinom}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,p)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9033132
+\end{verbatim}
+
+\hypertarget{exercise-10}{%
+\section{Exercise 10}\label{exercise-10}}
+
+6.15) Let X and Y be independent uniform (0, 1) random variables.
+
+\begin{itemize}
+\tightlist
+\item
+  a. Find the joint density of U = X, V = X + Y.
+\item
+  b. Use the result obtained in part (a) to compute the density function
+  of V.
+\end{itemize}
+
+\textbf{Answer} Firstly, considering that \(X\) and \(Y\) are
+independent random variables, it's possible to compute their the joint
+density as \(f_{X, Y}(x, y)=f_X(x)*f_Y(y)\). Now, to answer at the
+question a., the variables \(U=X\) and \(V=X+Y\) can be expressed in
+terms of \(X\) and \(Y\), e.i. \(X=U\) , \(Y=V-X=V-U\). Hence, it's
+possible computing joint density of \(f_{U, V}(u, v)\) substituting in
+the joint density of \(X\) and \(Y\) as written in right after
+expression: \[f_{U, V}(u, v)=f_X(u)*f_Y(v-u)\]
+
+So, remembering that the definition of the uniform distribution between
+0 and 1 is \(f_X(x)=\frac{1}{1-0} \, \mathbb{1}_{x \in [0, 1]}\) the
+computation of final distribution is: \[
+f_{U,V}(u, v) = \begin{cases} 
+1 & 0\leq u\leq 1 \mbox{ and } 0\leq v-u \leq 1\\
+0 & \mbox{otherwise}\\
+\end{cases}\] That is equals to write:
+\[f_{U,V}(u, v)= \mathbb{1}_{(max(v-1,0) < u <min(v, 1))} \]
+
+To answer at the question b. it's sufficient to compute the integral of
+\(f_{U, V}(u, v)\) that it's must be split in two parts
+\[ f_V(v)=\int_{0}^{v} f_{U, V}(u, v) \,du = v\] and
+\[f_V(v)=\int_{v-1}^{1} f_{U, V}(u, v) \,du = 1-v+1=2-v\]
+
+So, summarizing: \[f_{V}(v) = \begin{cases} 
+v & 0\leq v\leq 1 \\
+2-v & 1\leq v\leq 2\\
+\end{cases}\]
+
+\url{https://www.studysmarter.us/textbooks/math/a-first-course-in-probability-9th/jointly-distributed-random-variables/q615-let-x-and-y-be-independent-uniform-0-1-random-variables/}
+
+\url{https://math.stackexchange.com/questions/357672/density-of-sum-of-two-independent-uniform-random-variables-on-0-1}
+
+\hypertarget{exercise-11}{%
+\section{Exercise 11}\label{exercise-11}}
+
+7.31) In Problem 7.6, calculate the variance of the sum of the rolls.
+7.6) A fair die is rolled 10 times. Calculate the expected sum of the 10
+rolls.
+
+\textbf{Answer} The behavior of the 10 rolls is defined with a random
+variable, as follow: \[S_{10}=\sum_{i=1}^{10}{X_i}\] where
+\[X_i = \begin{cases} 
+1, & \mbox{with probability = 1/6}\\
+2, & \mbox{with probability = 1/6}\\
+3, & \mbox{with probability = 1/6}\\
+4, & \mbox{with probability = 1/6}\\
+5, & \mbox{with probability = 1/6}\\
+6, & \mbox{with probability = 1/6}\\
+\end{cases}, \text{for }1<i<10\] It's also possible to say that all the
+\(X_i\) are \textbf{independent} from each other. Hence, it's feasible
+calculating the expected sum of the \(X_i\):
+\[\mathbb E[X_i]=\sum_{i=1}^{6}{x_ip_i}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Expected value of 1 roll}
+\CommentTok{\#E[x]}
+\NormalTok{e}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{3}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{4}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{5}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{6}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6}
+\NormalTok{e}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.5
+\end{verbatim}
+
+and the variance: \[Var[X_i]=\mathbb E[X_i^2]-\mathbb E[X_i]^2\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#E[x\^{}2]}
+\NormalTok{e2}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{3}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{4}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{5}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6} \SpecialCharTok{+} \DecValTok{6}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{*}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6}
+\NormalTok{e2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.16667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Var[x]}
+\NormalTok{var}\OtherTok{\textless{}{-}}\NormalTok{e2}\SpecialCharTok{{-}}\NormalTok{e}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{var}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.916667
+\end{verbatim}
+
+And at the end it's possible to compute the variance of the sum of the
+10 random variables using the variance property:
+\[Var[S_{10}]=Var[\sum_{i=1}^{10}{X_i}]=10*Var[X_i]\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Var[x+x+x+x+x+x+x+x+x+x] = 10Var[x]}
+\NormalTok{var10}\OtherTok{\textless{}{-}}\DecValTok{10}\SpecialCharTok{*}\NormalTok{var}
+\NormalTok{var10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 29.16667
+\end{verbatim}
+
+\end{document}
